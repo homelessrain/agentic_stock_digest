@@ -67,13 +67,16 @@ def main(args: argparse.Namespace) -> None:
             print(response)
     else:
         # Chat with agent
-        if args.light:
-            agent.prompt(f'Today is {datetime.now().strftime("%Y-%m-%d")}. Produce a concise summary of the most dominant US market investment theme in the past month. Do not include any other information.')
-        else:
-            agent.prompt(f'Today is {datetime.now().strftime("%Y-%m-%d")}. Produce a summary of trending US stocks (with their corresponding industry) in the past month')
-            agent.prompt('Pick the most bullish industry and explain why market is so bullish on it')
-            agent.prompt('Research on the next technological frontier and the upcoming business context of the industry')
-            agent.prompt('Based on the research, recommend top 3 stocks of the industry that will benefit from future developments but not priced in yet. Also estimate when the trend will start to be recognized by market and therefore those stocks\' price will pick up.')
+        prompt = f"""
+        Today is {datetime.now().strftime("%Y-%m-%d")}. Do the following:
+            * Produce a summary of trending US stocks (with their corresponding industry) in the past month
+            * Pick the most bullish industry and explain why market is so bullish on it
+            * Research on the next technological frontier and the upcoming business context of the industry
+            * Based on the research, recommend top 3 stocks of the industry that will benefit from future developments but not priced in yet. Also estimate when the trend will start to be recognized by market and therefore those stocks\' price will pick up.
+
+        Put together a report in markdown format. Add a concise executive summary at the beginning of the report.
+        """
+        agent.prompt(prompt)
 
         # Prepare output
         day = datetime.now().strftime("%Y-%m-%d")
@@ -83,6 +86,10 @@ def main(args: argparse.Namespace) -> None:
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(html_report, encoding="utf-8")
         print(f"Wrote HTML digest to {out_path.resolve()}")
+
+        if args.skip_email:
+            print("Skipping email send.")
+            return
 
         # Send email (CI/server uses EMAIL_SENDER / EMAIL_PASSWORD / EMAIL_TO)
         recipients_raw = os.environ.get("EMAIL_TO", "").strip()
@@ -108,6 +115,6 @@ def main(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--interactive", action="store_true", default=False)  # interactive mode is helpful for debugging
-    parser.add_argument("--light", action="store_true", default=False)
+    parser.add_argument("--skip_email", action="store_true", default=False)
     args = parser.parse_args()
     main(args)

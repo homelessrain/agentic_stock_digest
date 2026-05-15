@@ -223,40 +223,51 @@ def _document_shell(body: str, title: str) -> str:
       --quote-bg: #f0fdf9;
     }}
     * {{ box-sizing: border-box; }}
+    html {{
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }}
     body {{
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 17px;
+      font-size: clamp(0.9375rem, 0.85rem + 0.35vw, 1.0625rem);
       line-height: 1.65;
       color: var(--ink);
       background: var(--bg);
     }}
     .page {{
-      max-width: 880px;
+      max-width: min(880px, 100%);
+      width: 100%;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: clamp(1.25rem, 4vw, 2.5rem) clamp(0.75rem, 4vw, 1.5rem) clamp(2rem, 6vw, 4rem);
+      padding-left: max(clamp(0.75rem, 4vw, 1.5rem), env(safe-area-inset-left));
+      padding-right: max(clamp(0.75rem, 4vw, 1.5rem), env(safe-area-inset-right));
     }}
     article {{
       background: var(--paper);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 2.25rem 2.5rem;
+      padding: clamp(1.25rem, 4vw, 2.25rem) clamp(1rem, 4vw, 2.5rem);
       box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }}
     .doc-title {{
-      font-size: 1.85rem;
+      font-size: clamp(1.35rem, 1.1rem + 1.75vw, 1.85rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       margin: 0 0 0.5rem;
       color: #0b1220;
+      line-height: 1.2;
     }}
     .section-heading {{
-      font-size: 1.25rem;
+      font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
       font-weight: 650;
-      margin: 2rem 0 0.75rem;
+      margin: clamp(1.25rem, 4vw, 2rem) 0 0.75rem;
       padding-bottom: 0.35rem;
       border-bottom: 2px solid rgba(15, 118, 110, 0.25);
       color: #111827;
+      line-height: 1.3;
     }}
     h3.section-heading {{ font-size: 1.1rem; border-bottom-width: 1px; margin-top: 1.5rem; }}
     h4.section-heading, h5.section-heading, h6.section-heading {{
@@ -292,6 +303,7 @@ def _document_shell(body: str, title: str) -> str:
     }}
     .table-wrap {{
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin: 1rem 0 1.5rem;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -299,14 +311,16 @@ def _document_shell(body: str, title: str) -> str:
     table {{
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.95rem;
+      font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.95rem);
       min-width: 520px;
     }}
     th, td {{
-      padding: 0.65rem 0.85rem;
+      padding: clamp(0.45rem, 1.5vw, 0.65rem) clamp(0.5rem, 2vw, 0.85rem);
       border-bottom: 1px solid var(--border);
       text-align: left;
       vertical-align: top;
+      overflow-wrap: anywhere;
+      hyphens: auto;
     }}
     th {{
       background: #f8fafc;
@@ -328,6 +342,7 @@ def _document_shell(body: str, title: str) -> str:
       padding-top: 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 0.75rem;
     }}
@@ -362,6 +377,15 @@ def _document_shell(body: str, title: str) -> str:
       font-size: 0.85rem;
       color: var(--accent);
       display: none;
+      flex-basis: 100%;
+    }}
+    @media (max-width: 480px) {{
+      article {{ border-radius: 8px; }}
+      .bullet-list, .numbered-list {{ margin-left: 0.85rem; }}
+      .callout {{ padding: 0.85rem 1rem; }}
+      .table-wrap {{ margin-left: -0.25rem; margin-right: -0.25rem; border-radius: 6px; }}
+      .feedback-bar {{ flex-direction: column; align-items: flex-start; }}
+      .feedback-thanks {{ flex-basis: auto; }}
     }}
   </style>
 </head>
