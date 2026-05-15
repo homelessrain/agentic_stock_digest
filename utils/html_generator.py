@@ -201,6 +201,11 @@ def _parse_blocks(text: str) -> str:
 
 def _document_shell(body: str, title: str) -> str:
     safe_title = html.escape(title)
+    # Page `<title>` is always set; add a visible masthead unless the body already
+    # opens with an h1 from a leading Markdown `#` line.
+    visible_heading = ""
+    if not re.match(r'^\s*<h1\s+class="doc-title"', body):
+        visible_heading = f'<h1 class="doc-title">{safe_title}</h1>\n'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -218,10 +223,6 @@ def _document_shell(body: str, title: str) -> str:
       --quote-bg: #f0fdf9;
     }}
     * {{ box-sizing: border-box; }}
-    html {{
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }}
     body {{
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -229,8 +230,6 @@ def _document_shell(body: str, title: str) -> str:
       line-height: 1.65;
       color: var(--ink);
       background: var(--bg);
-      word-break: break-word;
-      overflow-wrap: break-word;
     }}
     .page {{
       max-width: 880px;
@@ -293,7 +292,6 @@ def _document_shell(body: str, title: str) -> str:
     }}
     .table-wrap {{
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
       margin: 1rem 0 1.5rem;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -302,6 +300,7 @@ def _document_shell(body: str, title: str) -> str:
       width: 100%;
       border-collapse: collapse;
       font-size: 0.95rem;
+      min-width: 520px;
     }}
     th, td {{
       padding: 0.65rem 0.85rem;
@@ -323,36 +322,6 @@ def _document_shell(body: str, title: str) -> str:
       font-size: 0.8rem;
       color: var(--muted);
       text-align: center;
-    }}
-    @media (max-width: 600px) {{
-      .page {{
-        padding: 0.75rem 0 2rem;
-      }}
-      article {{
-        border-left: none;
-        border-right: none;
-        border-radius: 0;
-        padding: 1.25rem 1rem;
-        box-shadow: none;
-      }}
-      .doc-title {{
-        font-size: 1.35rem;
-      }}
-      .section-heading {{
-        font-size: 1.1rem;
-        margin-top: 1.5rem;
-      }}
-      h3.section-heading {{ font-size: 1rem; }}
-      table {{
-        font-size: 0.85rem;
-      }}
-      th, td {{
-        padding: 0.5rem 0.6rem;
-      }}
-      .feedback-btn {{
-        padding: 0.55rem 1rem;
-        font-size: 1.3rem;
-      }}
     }}
     .feedback-bar {{
       margin-top: 2.5rem;
@@ -399,7 +368,7 @@ def _document_shell(body: str, title: str) -> str:
 <body>
   <div class="page">
     <article>
-{body}
+{visible_heading}{body}
       <div class="feedback-bar">
         <span class="feedback-label">Was this report helpful?</span>
         <button class="feedback-btn" id="btn-up" onclick="vote('up')" title="Thumbs up">&#128077;</button>
@@ -407,7 +376,9 @@ def _document_shell(body: str, title: str) -> str:
         <span class="feedback-thanks" id="feedback-thanks">Thanks for your feedback!</span>
       </div>
     </article>
-    <footer class="report-meta">Generated as HTML research layout</footer>
+    <footer class="report-meta">
+      <a href="https://github.com/homelessrain/agentic_stock_digest" target="_blank" rel="noopener">View on GitHub: agentic_stock_digest</a>
+    </footer>
     <script>
       function vote(dir) {{
         var up = document.getElementById('btn-up');
