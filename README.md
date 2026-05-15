@@ -18,3 +18,5 @@ In each digest email, it will include the following:
 `send_digest.py` is the main script to generate stock digest by interacting with model APIs, put together an html body based on API responses, and send emails.
 
 `utils` folder has the necessary util functions including html generation and email sending.
+
+Scheduling is implemented through github actions.
