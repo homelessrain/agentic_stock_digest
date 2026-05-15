@@ -1,0 +1,62 @@
+name: Daily Trading Summary
+
+on:
+  schedule:
+    - cron: '0 0 * * 2,4,6'  # 12 AM UTC, every Tuesday, Thursday, and Saturday
+  workflow_dispatch:      # allow manual trigger from GitHub UI
+
+env:
+  REPO_BASE_DIR: '~'
+  BRANCH_NAME: 'deploy'
+
+jobs:
+  send-daily-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate stock digest on EC2 server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ vars.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            set -e
+            REPO_DIR=${{ env.REPO_BASE_DIR }}/agentic_stock_digest
+
+            # Clone repo if it doesn't exist, otherwise pull latest
+            if [ ! -d "$REPO_DIR/.git" ]; then
+              git clone git@github.com:homelessrain/agentic_stock_digest.git $REPO_DIR
+            fi
+            cd $REPO_DIR
+            git fetch origin
+            git checkout ${{ env.BRANCH_NAME }}
+            git pull origin ${{ env.BRANCH_NAME }}
+
+            # Create virtual environment only if it doesn't already exist
+            if [ ! -d "env" ]; then
+              python3.12 -m venv env # use python3.12 here explicitly as python3 might point to different versions even I tried the alias trick
+            fi
+            source env/bin/activate
+            python --version
+
+            # Only reinstall dependencies if requirements.txt has changed
+            # .requirements_hash is gitignored so git pull never overwrites it
+            REQUIREMENTS_HASH=$(md5sum requirements.txt | awk '{print $1}')
+            HASH_FILE=".requirements_hash"
+            if [ ! -f "$HASH_FILE" ] || [ "$REQUIREMENTS_HASH" != "$(cat $HASH_FILE)" ]; then
+              echo "requirements.txt changed, running pip install..."
+              pip install --upgrade pip
+              pip install -r requirements.txt
+              echo "$REQUIREMENTS_HASH" > "$HASH_FILE"
+            else
+              echo "requirements.txt unchanged, skipping pip install"
+            fi
+
+            export MODEL_API_KEY='${{ secrets.MODEL_API_KEY }}'
+            export MODEL_KEY='${{ vars.MODEL_KEY }}'
+
+            export EMAIL_SENDER='${{ secrets.EMAIL_SENDER }}'
+            export EMAIL_PASSWORD='${{ secrets.EMAIL_PASSWORD }}'
+            export EMAIL_TO='${{ secrets.EMAIL_TO }}'
+  
+            PYTHONPATH=. python send_digest.py

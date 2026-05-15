@@ -1,0 +1,5 @@
+env/
+.vscode/
+stock_digest.html
+digest_output/
+.requirements_hash
