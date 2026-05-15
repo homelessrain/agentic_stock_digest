@@ -1,0 +1,33 @@
+name: Digest Trigger
+
+on:
+  schedule:
+    - cron: '0 0 * * 2,4,6'  # 12 AM UTC, every Tuesday, Thursday, and Saturday
+  workflow_dispatch:      # allow manual trigger from GitHub UI
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run digest script
+        env:
+          # Anthropic (required for send_digest.Agent)
+          MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+          MODEL_KEY: ${{ vars.MODEL_KEY }}
+          # SMTP / Gmail app password (all three needed to send; omit EMAIL_TO to skip send)
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python send_digest.py
