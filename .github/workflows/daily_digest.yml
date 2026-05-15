@@ -1,4 +1,4 @@
-name: Daily Trading Summary
+name: Digest Trigger
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_BASE_DIR: '~'
-  BRANCH_NAME: 'deploy'
+  BRANCH_NAME: 'master'
 
 jobs:
   send-daily-summary:
