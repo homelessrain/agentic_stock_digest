@@ -73,7 +73,7 @@ def main(args: argparse.Namespace) -> None:
             agent.prompt(f'Today is {datetime.now().strftime("%Y-%m-%d")}. Produce a summary of trending US stocks (with their corresponding industry) in the past month')
             agent.prompt('Pick the most bullish industry and explain why market is so bullish on it')
             agent.prompt('Research on the next technological frontier and the upcoming business context of the industry')
-            agent.prompt('Based on the research, recommend top 3 stocks of the industry that will benefit from future developments but not yet priced in yet. Also estimate when the trend will start to be recognized by market and therefore those stocks\' price will pick up.')
+            agent.prompt('Based on the research, recommend top 3 stocks of the industry that will benefit from future developments but not priced in yet. Also estimate when the trend will start to be recognized by market and therefore those stocks\' price will pick up.')
 
         # Prepare output
         day = datetime.now().strftime("%Y-%m-%d")
