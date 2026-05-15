@@ -3,3 +3,4 @@ env/
 stock_digest.html
 digest_output/
 .requirements_hash
+*/__pycache__/
