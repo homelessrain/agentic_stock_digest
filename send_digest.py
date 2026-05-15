@@ -2,6 +2,8 @@
 This script is used to ask AI API some prompts and then send the daily digest email to the recipient.
 """
 
+from __future__ import annotations
+
 import argparse
 import os
 from datetime import datetime
@@ -12,34 +14,68 @@ import anthropic
 from utils.email_sender import EmailSender
 from utils.html_generator import StockReportHtmlGenerator
 
+# Web search is a server tool: long turns may end with stop_reason "pause_turn" and must be continued.
+# See https://platform.claude.com/docs/en/agents-and-tools/tool-use/server-tools
+MAX_PAUSE_TURN_CHAINS = 24
+# Non-streaming messages.create() rejects large max_tokens (SDK estimates >10m wall time).
+# Use streaming below so long digests + web search stay valid. See anthropic-sdk-python "long-requests".
+OUTPUT_MAX_TOKENS = 32768
+WEB_SEARCH_MAX_USES = 100
+
 
 class Agent:
     def __init__(self):
         api_key = os.getenv("MODEL_API_KEY")
         self.client = anthropic.Anthropic(api_key=api_key, max_retries=2)
         self.model = os.getenv("MODEL_KEY")  # e.g. "claude-sonnet-4-6"
-        # web search tool is essential for the agent to get the latest information
-        self.tools = [{"type": "web_search_20260209", "name": "web_search"}]
+        # Server-executed web search; max_uses allows multiple searches in one digest.
+        self.tools: list[dict] = [
+            {
+                "type": "web_search_20260209",
+                "name": "web_search",
+                "max_uses": WEB_SEARCH_MAX_USES,
+            }
+        ]
         self.reset()
 
-    def prompt(self, new_message: str) -> str:
-        if self.responses:
-            self.messages.append(
-                {"role": "assistant", "content": self.responses[-1]}
-            )
-
-        self.messages.append({"role": "user", "content": new_message})
-        self.prompt_history.append(new_message)
-
-        response = self.client.messages.create(
+    def _create_message_streaming(self) -> anthropic.types.Message:
+        """
+        Streaming is required for long-running requests (high max_tokens and/or server tools
+        like web search). Non-streaming create() raises ValueError from the SDK otherwise.
+        """
+        with self.client.messages.stream(
             model=self.model,
-            max_tokens=4096,
+            max_tokens=OUTPUT_MAX_TOKENS,
             system=self.system,
             messages=self.messages,
             tools=self.tools,
-        )
-        text = self._message_text(response)
-        print(text)
+        ) as stream:
+            return stream.get_final_message()
+
+    def prompt(self, new_message: str) -> str:
+        self.messages.append({"role": "user", "content": new_message})
+        self.prompt_history.append(new_message)
+
+        chain: list[anthropic.types.Message] = []
+        while len(chain) < MAX_PAUSE_TURN_CHAINS:
+            response = self._create_message_streaming()
+            chain.append(response)
+            self.messages.append({"role": "assistant", "content": response.content})
+            print(
+                f"[anthropic] segment {len(chain)} stop_reason={response.stop_reason!r}",
+                flush=True,
+            )
+            if response.stop_reason != "pause_turn":
+                break
+        else:
+            print(
+                f"[anthropic] warning: hit MAX_PAUSE_TURN_CHAINS ({MAX_PAUSE_TURN_CHAINS}); "
+                "response may be incomplete.",
+                flush=True,
+            )
+
+        text = self._report_text_from_chain(chain)
+        print(text, flush=True)
         self.responses.append(text)
         return text
 
@@ -50,11 +86,19 @@ class Agent:
                 text += block.text
         return text
 
+    def _report_text_from_chain(self, chain: list[anthropic.types.Message]) -> str:
+        """Use the last segment that contains text (typically the finished report)."""
+        for response in reversed(chain):
+            segment = self._message_text(response).strip()
+            if segment:
+                return self._message_text(response)
+        return ""
+
     def reset(self) -> None:
         self.system = "You are a stock market analyst"
-        self.messages = []
-        self.responses = []
-        self.prompt_history = []
+        self.messages: list[dict] = []
+        self.responses: list[str] = []
+        self.prompt_history: list[str] = []
 
 
 def main(args: argparse.Namespace) -> None:
@@ -63,8 +107,7 @@ def main(args: argparse.Namespace) -> None:
     if args.interactive:
         while True:
             user_input = input("Enter a prompt: ")
-            response = agent.prompt(user_input)
-            print(response)
+            agent.prompt(user_input)
     else:
         # Chat with agent
         prompt = f"""
@@ -74,7 +117,7 @@ def main(args: argparse.Namespace) -> None:
             * Research on the next technological frontier and the upcoming business context of the industry
             * Based on the research, recommend top 3 stocks of the industry that will benefit from future developments but not priced in yet. Also estimate when the trend will start to be recognized by market and therefore those stocks\' price will pick up.
 
-        Put together a report in markdown format. Add a concise executive summary at the beginning of the report.
+        Put together a report (just return all the information as text; don't export as a separate md file). Add a concise executive summary at the beginning of the report.
         """
         print(prompt)
         agent.prompt(prompt)
