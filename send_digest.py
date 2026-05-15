@@ -76,6 +76,7 @@ def main(args: argparse.Namespace) -> None:
 
         Put together a report in markdown format. Add a concise executive summary at the beginning of the report.
         """
+        print(prompt)
         agent.prompt(prompt)
 
         # Prepare output
