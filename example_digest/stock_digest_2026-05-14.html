@@ -15,40 +15,51 @@
       --quote-bg: #f0fdf9;
     }
     * { box-sizing: border-box; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      font-size: 17px;
+      font-size: clamp(0.9375rem, 0.85rem + 0.35vw, 1.0625rem);
       line-height: 1.65;
       color: var(--ink);
       background: var(--bg);
     }
     .page {
-      max-width: 880px;
+      max-width: min(880px, 100%);
+      width: 100%;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: clamp(1.25rem, 4vw, 2.5rem) clamp(0.75rem, 4vw, 1.5rem) clamp(2rem, 6vw, 4rem);
+      padding-left: max(clamp(0.75rem, 4vw, 1.5rem), env(safe-area-inset-left));
+      padding-right: max(clamp(0.75rem, 4vw, 1.5rem), env(safe-area-inset-right));
     }
     article {
       background: var(--paper);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 2.25rem 2.5rem;
+      padding: clamp(1.25rem, 4vw, 2.25rem) clamp(1rem, 4vw, 2.5rem);
       box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
     .doc-title {
-      font-size: 1.85rem;
+      font-size: clamp(1.35rem, 1.1rem + 1.75vw, 1.85rem);
       font-weight: 700;
       letter-spacing: -0.02em;
       margin: 0 0 0.5rem;
       color: #0b1220;
+      line-height: 1.2;
     }
     .section-heading {
-      font-size: 1.25rem;
+      font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.25rem);
       font-weight: 650;
-      margin: 2rem 0 0.75rem;
+      margin: clamp(1.25rem, 4vw, 2rem) 0 0.75rem;
       padding-bottom: 0.35rem;
       border-bottom: 2px solid rgba(15, 118, 110, 0.25);
       color: #111827;
+      line-height: 1.3;
     }
     h3.section-heading { font-size: 1.1rem; border-bottom-width: 1px; margin-top: 1.5rem; }
     h4.section-heading, h5.section-heading, h6.section-heading {
@@ -84,6 +95,7 @@
     }
     .table-wrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin: 1rem 0 1.5rem;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -91,14 +103,16 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.95rem;
+      font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.95rem);
       min-width: 520px;
     }
     th, td {
-      padding: 0.65rem 0.85rem;
+      padding: clamp(0.45rem, 1.5vw, 0.65rem) clamp(0.5rem, 2vw, 0.85rem);
       border-bottom: 1px solid var(--border);
       text-align: left;
       vertical-align: top;
+      overflow-wrap: anywhere;
+      hyphens: auto;
     }
     th {
       background: #f8fafc;
@@ -120,6 +134,7 @@
       padding-top: 1.5rem;
       border-top: 1px solid var(--border);
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 0.75rem;
     }
@@ -154,21 +169,104 @@
       font-size: 0.85rem;
       color: var(--accent);
       display: none;
+      flex-basis: 100%;
+    }
+    @media (max-width: 480px) {
+      article { border-radius: 8px; }
+      .bullet-list, .numbered-list { margin-left: 0.85rem; }
+      .callout { padding: 0.85rem 1rem; }
+      .table-wrap { margin-left: -0.25rem; margin-right: -0.25rem; border-radius: 6px; }
+      .feedback-bar { flex-direction: column; align-items: flex-start; }
+      .feedback-thanks { flex-basis: auto; }
     }
   </style>
 </head>
 <body>
   <div class="page">
     <article>
-<p class="paragraph">Based on the search results, here is a concise summary:</p>
+<h1 class="doc-title">Agentic Stock Digest — 2026-05-14</h1>
+<p class="paragraph">I&#x27;ll research trending US stocks, identify the most bullish industry, and analyze future opportunities. Let me start by gathering current market data.Now I have comprehensive data to compile the report. Let me put it all together.</p>
 <hr class="rule" />
-<h2 class="section-heading">Dominant US Market Theme (Mid-April to Mid-May 2026): The AI Capital Expenditure Super-Cycle</h2>
-<p class="paragraph">The past few years have featured pretty much just one dominant market theme: artificial intelligence (AI). Over the last month, this theme intensified dramatically as the AI infrastructure buildout entered a new phase of scale.</p>
-<p class="paragraph"><strong>The Capex Surge:</strong> The five largest US cloud and AI infrastructure providers — Microsoft, Alphabet, Amazon, Meta, and Oracle — have collectively committed to spending between $660 billion and $690 billion on capital expenditure in 2026, nearly doubling 2025 levels. Big Tech capital expenditures are now seen topping $1 trillion in 2027.</p>
-<p class="paragraph"><strong>Market Rally:</strong> April delivered the mirror image of March. The S&amp;P 500 closed the month at a fresh all-time high of 7,209, posting its strongest monthly gain since 2020, with the Nasdaq also setting record closes. After the S&amp;P 500 broke above 7,300 for the first time ever and notched its longest six-week winning streak since 2024, investors are now bracing for inflation data that could reset Fed expectations. In the S&amp;P 500&#x27;s 28-session rally, 10 stocks drove 69% of gains, underscoring the AI-driven concentration.</p>
-<p class="paragraph"><strong>Earnings Validation:</strong> First-quarter cloud revenue for Alphabet surged 63% on the year, prompting about a 10% jump in its stock. Information Technology (+20.02%) was the dominant double-digit leader, besting the S&amp;P 500 by nearly 10 percentage points. AI investment is expected to drive roughly 40% of S&amp;P 500 earnings growth this year.</p>
-<p class="paragraph"><strong>Key Tension:</strong> Despite the recent correction, US technology and AI equities remain richly valued, with EV/EBITDA multiples near 25x, close to historical extremes. The core issue is no longer AI potential but timing: capex is expanding far faster than revenues, with a ~46% growth gap between investment and sales. The dot-com comparison is unavoidable because concentration is again extreme and investors are again valuing a technology buildout before all returns are visible.</p>
-<p class="paragraph"><strong>Bottom line:</strong> The AI capex super-cycle — anchored by hyperscaler spending, surging cloud revenues, and semiconductor demand — has been the singular force propelling US equities to record highs over the past month, even as valuation and inflation concerns simmer beneath the surface.</p>
+<h1 class="doc-title">📊 US STOCK MARKET TREND REPORT — May 14, 2026</h1>
+<hr class="rule" />
+<h2 class="section-heading">EXECUTIVE SUMMARY</h2>
+<p class="paragraph">The US stock market over the past month has been dominated by two powerful forces: an <strong>explosive AI-driven semiconductor rally</strong> (SOX index +65% YTD) and a <strong>war-driven energy sector surge</strong> (+37% in Q1 alone due to the Iran conflict). While energy&#x27;s gains are geopolitically driven and potentially transient, the semiconductor/AI chip industry represents the most sustainably bullish sector, powered by $720 billion in hyperscaler AI capex in 2026 alone. The next technological frontier — <strong>Edge AI inference, agentic AI, and physical AI</strong> — is poised to shift value from centralized GPU training toward on-device and distributed intelligence. Three stocks positioned to benefit from this next wave but not yet fully priced in are: <strong>Ambarella (AMBA)</strong>, <strong>CEVA, Inc. (CEVA)</strong>, and <strong>Lattice Semiconductor (LSCC)</strong>. We estimate the market will begin recognizing this edge/inference rotation in <strong>Q4 2026 to Q1 2027</strong>, as agentic AI deployments scale and automotive/IoT design wins convert to volume revenue.</p>
+<hr class="rule" />
+<h2 class="section-heading">SECTION 1: TRENDING US STOCKS &amp; SECTORS (Past Month — April to Mid-May 2026)</h2>
+<h3 class="section-heading">Top Performing Sectors</h3>
+<div class="table-wrap"><table><thead><tr><th>Sector</th><th>Performance</th><th>Key Drivers</th></tr></thead><tbody><tr><td><strong>Semiconductors/Technology</strong></td><td>SOX +65% YTD; Tech led April with +108% avg among top 10 gainers</td><td>AI infrastructure buildout</td></tr><tr><td><strong>Energy</strong></td><td>+37% in Q1; +22% YTD</td><td>Iran war, Strait of Hormuz closure, oil near $94/bbl</td></tr><tr><td><strong>Industrials</strong></td><td>+16% YTD</td><td>AI data center construction, reshoring</td></tr><tr><td><strong>Consumer Defensives</strong></td><td>+13.3% YTD</td><td>Walmart/Costco defensive positioning</td></tr></tbody></table></div>
+<h3 class="section-heading">Notable Trending Stocks (Past Month)</h3>
+<div class="table-wrap"><table><thead><tr><th>Stock</th><th>Industry</th><th>Performance</th><th>Catalyst</th></tr></thead><tbody><tr><td><strong>AMD (Advanced Micro Devices)</strong></td><td>Semiconductors</td><td>+90% past month, +74% in April</td><td>AMD stock has been on a tear as demand has soared for chips amid the AI infrastructure buildout. The stock is up 20% this week and almost 90% over the past month. The company delivered EPS of $1.37 in Q1, beating the consensus estimate of $1.29 by more than 6%.</td></tr><tr><td><strong>Intel (INTC)</strong></td><td>Semiconductors</td><td>+200% YTD</td><td>Intel&#x27;s resurgence is perhaps the most striking part of 2026&#x27;s chip market story. Q1 revenue came in at $13.6 billion, which was $1.4 billion above the midpoint of its own guidance. Its data center and AI (DCAI) segment grew 22% year over year.</td></tr><tr><td><strong>Astera Labs (ALAB)</strong></td><td>Semiconductor Connectivity</td><td>+78% in April, +198% past year</td><td>Q1 2026 revenue surged 93% year-over-year to $308.4M, driven by strong AI infrastructure demand and rapid ramp of Scorpio X-Series switches.</td></tr><tr><td><strong>Marvell (MRVL)</strong></td><td>Custom AI Silicon</td><td>+67% in April, nearly doubled YTD</td><td>Several catalysts converged to drive the rally. First, the blowout Q4 2026 earnings sent shares spiking roughly 20% in a single session. Bank of America upgraded Marvell from Neutral to Buy, raising its price target from $90 to $110.</td></tr><tr><td><strong>Micron (MU)</strong></td><td>Memory Chips</td><td>Crossed $800B market cap</td><td>Micron stock crossed the $800 billion market cap threshold for the first time. Micron&#x27;s CEO told CNBC that major customers are receiving only half to two-thirds of what they actually need.</td></tr><tr><td><strong>Caterpillar (CAT)</strong></td><td>Industrials</td><td>+32% YTD</td><td>Data center construction, infrastructure spending</td></tr><tr><td><strong>Exxon Mobil (XOM) / Chevron (CVX)</strong></td><td>Energy</td><td>Energy sector +22% YTD</td><td>The Iran war has created a defining moment for energy investors, with oil price volatility offering both substantial opportunities and meaningful risks. Even at current oil prices near $94 per barrel, integrated majors trade at free cash flow yields of 8-12%.</td></tr><tr><td><strong>Walmart (WMT) / Costco (COST)</strong></td><td>Consumer Defensives</td><td>+13.7% / +15.7% YTD</td><td>Walmart and Costco have had the largest impact on returns so far in 2026. Both stocks are rated 1 star by Morningstar analysts, meaning they are considered to be significantly overvalued.</td></tr></tbody></table></div>
+<h3 class="section-heading">Broader Market Context</h3>
+<p class="paragraph">While it&#x27;s only a few weeks into 2026, the latest data shows that the tables are turning in the stock market. Small-cap companies are outpacing large caps, in an early reversal of last year&#x27;s dynamic. Tech stocks are hitting a slump this year after seeing strong earnings growth in 2025 from the AI investment boom. However, within technology, semiconductors have been the standout exception, surging on AI infrastructure demand. Industrial, consumer defensive, and energy stocks are leading the stock market higher in 2026 as technology names falter and investors look beyond the AI trade for returns.</p>
+<hr class="rule" />
+<h2 class="section-heading">SECTION 2: MOST BULLISH INDUSTRY — SEMICONDUCTORS / AI CHIPS</h2>
+<h3 class="section-heading">Why the Market Is So Bullish</h3>
+<p class="paragraph">The semiconductor sector is unambiguously the most bullish industry in 2026. The semiconductor sector is experiencing one of its most explosive rallies in modern market history, with the PHLX Semiconductor Index (SOX) surging over 65% year-to-date in 2026. This unprecedented momentum, driven by massive artificial intelligence infrastructure investments from tech giants, has positioned chipmakers at the center of the market&#x27;s most compelling growth story.</p>
+<p class="paragraph"><strong>Key Bullish Catalysts:</strong></p>
+<ol class="numbered-list"><li><strong>Unprecedented AI Capex:</strong> This year alone, the big five hyperscalers are expected to pour $720 billion into AI capex. Microsoft, Google, Amazon, and Meta are collectively building out massive AI training and inference infrastructure.</li></ol>
+<ol class="numbered-list"><li><strong>Revenue &amp; Earnings Beats Across the Board:</strong> AMD beat Q1 estimates by 6%+; Intel posted revenue $1.4B above guidance; Micron can&#x27;t meet demand; Astera Labs grew revenue 93% YoY.</li></ol>
+<ol class="numbered-list"><li><strong>Industry Revenue Explosion:</strong> Market research firm Gartner projects that the semiconductor industry&#x27;s revenue could grow by 64% in 2026 to $1.32 trillion.</li></ol>
+<ol class="numbered-list"><li><strong>Broadening of the AI Trade:</strong> Since the launch of ChatGPT in late 2022 and the start of the generative AI craze, one name has dominated the infrastructure boom: Nvidia. While the chipmaker continues to prosper, Wall Street has moved elsewhere, piling into businesses that were hardly visible in the initial years of the artificial intelligence buildout. Intel, AMD, Micron, Marvell, and Broadcom are all surging as the &quot;picks and shovels&quot; trade broadens.</li></ol>
+<ol class="numbered-list"><li><strong>Memory Price Surge:</strong> Spending on memory chips is poised to jump from $216 billion last year to $633 billion in 2026, according to Gartner.</li></ol>
+<p class="paragraph"><strong>Cautionary Note:</strong> The Philadelphia Semiconductor Index (SOX) has surged an astonishing 65% year-to-date in 2026, with a 10% weekly gain that has pushed valuations to extremes rarely seen in modern markets. Burry has backed his conviction with substantial put options on the SOXX ETF. BTIG analyst Jonathan Krinsky has warned of a potential 25-30% correction, comparing the move to 1999.</p>
+<hr class="rule" />
+<h2 class="section-heading">SECTION 3: THE NEXT TECHNOLOGICAL FRONTIER</h2>
+<h3 class="section-heading">The &quot;Inference Inflection&quot; and Edge AI Revolution</h3>
+<p class="paragraph">The semiconductor industry is undergoing a structural shift from its current phase (centralized GPU training in hyperscale data centers) toward three interrelated frontiers:</p>
+<h4 class="section-heading">1. <strong>Inference Over Training — The &quot;Second Wave&quot;</strong></h4>
+<p class="paragraph">By early 2026, over 55% of AI-optimized infrastructure spending is now dedicated to running models in production rather than training them. This transition has exposed a critical flaw in earlier data center architectures: while GPUs have become exponentially faster, the pipes connecting them have struggled to keep pace.</p>
+<p class="paragraph">The smartest investors understand that the spending mix within AI infrastructure budgets is beginning to shift. While training remains Nvidia&#x27;s domain, inference demands more power-efficient silicon that can be deployed at huge scale for a lower cost.</p>
+<h4 class="section-heading">2. <strong>Edge AI — Moving the Brain to the Device</strong></h4>
+<p class="paragraph">Perhaps the most significant shift in 2026 is the migration of AI inference from the cloud to the &quot;edge.&quot; The market for on-device AI—spanning AI-enabled PCs, smartphones, and industrial IoT—is growing at a CAGR of over 26%. The goal is to run complex models locally on Neural Processing Units (NPUs) rather than sending every query to a distant server.</p>
+<p class="paragraph">Every buildout has a bottleneck that eventually becomes unbearable. For the first decade of modern AI, that bottleneck was compute. Now we have a new one: latency. A self-driving car cannot wait 200 milliseconds for a data center in Virginia to decide whether the shape ahead is a pedestrian or a mailbox. A surgical robot cannot afford to buffer. The solution is simple: move the brain to the machine.</p>
+<h4 class="section-heading">3. <strong>Agentic AI and Physical AI — The 2027+ Horizon</strong></h4>
+<p class="paragraph">Looking ahead to the remainder of 2026 and into 2027, the industry is preparing for the rise of &quot;Agentic AI&quot;—systems that don&#x27;t just answer questions but perform complex, multi-step tasks autonomously. These agents require even lower latency and more frequent access to vast &quot;data lakes&quot; than current chat-based models.</p>
+<p class="paragraph">NVIDIA itself is expanding into this frontier, announcing it is expanding its open model families to power the next wave of agentic, physical and healthcare AI, introducing new models that enable developers and scientists to build intelligent systems that can reason and act across digital and real-world environments.</p>
+<h3 class="section-heading">Business Context for This Shift</h3>
+<p class="paragraph">The key insight is that <strong>the current semiconductor rally is concentrated in data-center GPU/memory plays</strong> (NVIDIA, AMD, Micron, Broadcom). But the next wave of value creation will flow to:</p>
+<ul class="bullet-list"><li><strong>Edge AI chip designers</strong> serving automotive ADAS, robotics, and industrial IoT</li><li><strong>IP licensors</strong> whose neural processing unit designs get embedded in billions of devices</li><li><strong>Low-power FPGA/programmable logic</strong> companies enabling AI customization at the edge</li><li><strong>Custom silicon and connectivity</strong> companies solving the interconnect bottleneck</li></ul>
+<p class="paragraph">AI chips are now 0.2% of all chips manufactured, but they account for roughly 50% of total industry revenue. The enterprise-wide AI integration is not yet in place. Only 44% of organizations have fully embedded AI across multiple functions, while the remaining 56% are still operating in pilots, limited deployments, or early exploration.</p>
+<p class="paragraph">The buying conversation is already shifting from peak compute performance to FLOPS-per-watt, latency-per-query, and cost-per-inference.</p>
+<hr class="rule" />
+<h2 class="section-heading">SECTION 4: TOP 3 STOCK RECOMMENDATIONS — Undervalued Plays on the Next Wave</h2>
+<p class="paragraph">These three companies are positioned at the intersection of edge AI inference, physical AI, and agentic computing — themes that are just beginning to gain market attention but are not yet fully reflected in stock prices.</p>
+<hr class="rule" />
+<h3 class="section-heading">🥇 1. AMBARELLA, INC. (NASDAQ: AMBA) — ~$54/share</h3>
+<p class="paragraph"><strong>The Edge AI Vision Specialist</strong></p>
+<p class="paragraph"><strong>Why It&#x27;s Positioned for the Future:</strong>
+In February, the company reported record fiscal 2026 revenue of $390.7 million, up 37% year over year, while fourth-quarter revenue climbed 20% to $100.9 million. Ambarella also swung to a full-year non-GAAP profit of $26.9 million after posting a loss the prior year. Management has been aggressively positioning the company around edge AI, saying AI-focused chips now make up 80% of revenue. The company also highlighted more than 370 customer AI projects already in production and roughly $1 billion in cumulative edge AI revenue.</p>
+<p class="paragraph"><strong>Why It&#x27;s Not Priced In:</strong>
+Ambarella shares are trading about 43.4% below one estimate of fair value. The stock has a 28% YTD decline even as the broader semiconductor sector surges 65%. The price sits about 40% below the US$89.58 analyst target range midpoint. The market is still focused on data-center GPU plays and hasn&#x27;t fully rotated into edge AI hardware.</p>
+<p class="paragraph"><strong>Future Catalyst:</strong> The CV3-AD family of SoCs, targeting L2+ and higher levels of autonomy in vehicles, is anticipated to commence revenue generation in fiscal year 2027 (calendar year 2026). Additionally, a new 2-nanometer chip design is projected to contribute revenue starting in early fiscal year 2028.</p>
+<p class="paragraph"><strong>Estimated Price Recognition Timeline:</strong> Q4 2026 – Q1 2027, as automotive CV3-AD revenue ramps and the &quot;edge AI&quot; theme gains investor rotation from overbought data-center names.</p>
+<hr class="rule" />
+<h3 class="section-heading">🥈 2. CEVA, INC. (NASDAQ: CEVA) — ~$32/share (~$507M market cap)</h3>
+<p class="paragraph"><strong>The &quot;ARM of Edge AI&quot; — IP Licensing Play</strong></p>
+<p class="paragraph"><strong>Why It&#x27;s Positioned for the Future:</strong>
+CEVA announced that 2025 marked a breakthrough year for its artificial intelligence licensing business, with 10 NeuPro™ NPU agreements signed and with AI contributing more than 20% of annual licensing revenue in 2025. As AI expands beyond the cloud into real-world devices, demand is accelerating for optimized, power-efficient neural processing architectures.</p>
+<p class="paragraph">Ceva delivered a strong start to 2026, highlighted by its highest licensing and related revenues in three years and continued momentum across its connectivity and AI portfolios. Importantly, this quarter reflects the successful execution of its strategy to expand beyond discrete IP into more integrated, system-level solutions.</p>
+<p class="paragraph"><strong>Why It&#x27;s Not Priced In:</strong> At ~$507M market cap, CEVA is a micro-cap that most institutional AI investors overlook entirely. Over the past month, Ceva stock has already climbed nearly 80% on the Q1 beat, but this is from an extremely depressed base. Renesas, Microchip, and Ceva are pushing AI inference down to the microcontroller level—chips running on milliwatts, costing dollars, deployed in billions. This is the unglamorous, high-volume endgame of edge AI. The licensing model means CEVA benefits as billions of edge AI chips ship with its NPU IP embedded — a royalty stream that hasn&#x27;t yet inflected.</p>
+<p class="paragraph"><strong>Future Catalyst:</strong> CEVA&#x27;s NeuPro NPU IP being designed into chips by Microchip, ALi Corp, Nextchip, and a major PC OEM. Management projects 8-12% revenue growth in 2026 with 35-40% non-GAAP operating income growth. The real inflection comes as these design wins convert to volume royalty revenue in 2027-2028.</p>
+<p class="paragraph"><strong>Estimated Price Recognition Timeline:</strong> Q1–Q2 2027, as royalty revenue from NeuPro-embedded chips begins shipping at scale and the market recognizes CEVA&#x27;s leverage to the &quot;TinyML&quot; and physical AI megatrends.</p>
+<hr class="rule" />
+<h3 class="section-heading">🥉 3. LATTICE SEMICONDUCTOR (NASDAQ: LSCC) — ~$122/share</h3>
+<p class="paragraph"><strong>The Low-Power FPGA Monopolist for AI Infrastructure</strong></p>
+<p class="paragraph"><strong>Why It&#x27;s Positioned for the Future:</strong>
+Lattice Semiconductor stock has climbed more than 150% over the past year as investors price in stronger demand for low-power FPGAs used in AI servers, robotics, and industrial systems. As of May 8, 2026, Lattice traded at roughly $122 per share on Nasdaq.</p>
+<p class="paragraph">While AMD and Intel battle for high-performance FPGA supremacy, Lattice&#x27;s sub-1-watt Nexus and Avant platforms have created a defensible monopoly in edge AI and board management applications where power efficiency trumps raw compute, supporting 68% gross margins that exceed all major competitors.</p>
+<p class="paragraph"><strong>Why It&#x27;s Not Fully Priced In:</strong>
+The company has been undershipping true demand in Industrial &amp; Automotive by $15-20 million quarterly throughout 2025; as channel inventory normalizes by year-end, this headwind becomes a 2026 revenue accelerant. While the stock has rallied, analysts note that edge AI adoption, FPGA demand, and margin recovery could support meaningful revenue growth, with one model projecting around 27% annual revenue growth and operating margins near 29% over the medium term. The inventory normalization cycle sets up a powerful snapback.</p>
+<p class="paragraph"><strong>Future Catalyst:</strong> 2026 is expected to be the &quot;year of Nexus&quot; — Lattice&#x27;s AI-optimized FPGA platform — with new design wins ramping in AI servers, automotive, and robotics. The mid-range Avant platform expands their addressable market significantly.</p>
+<p class="paragraph"><strong>Estimated Price Recognition Timeline:</strong> Q3–Q4 2026, as inventory normalization completes and Lattice posts accelerating revenue growth that validates the AI FPGA thesis. Analyst target: ~$170 by end of 2028.</p>
+<hr class="rule" />
+<h2 class="section-heading">RISK FACTORS</h2>
+<ol class="numbered-list"><li><strong>Bubble Risk in Broader Semis:</strong> Michael Burry and BTIG&#x27;s Krinsky warn the SOX rally resembles 1999. A 25-30% correction in the semiconductor index could drag down even undervalued names temporarily.</li><li><strong>Iran War / Macro Volatility:</strong> Surging gas prices due to the Iran war sent consumer sentiment to a new low in early May, with a University of Michigan reading of 48.2. A recession could dampen enterprise AI spending.</li><li><strong>Execution Risk:</strong> Edge AI stocks like AMBA and CEVA are smaller companies with higher execution risk than mega-cap semiconductor peers.</li><li><strong>Geopolitical Risk:</strong> TSMC dependency across the semiconductor supply chain remains a systemic vulnerability.</li></ol>
+<hr class="rule" />
+<h2 class="section-heading">SUMMARY TABLE</h2>
+<div class="table-wrap"><table><thead><tr><th>Stock</th><th>Price</th><th>Industry Niche</th><th>Key Edge</th><th>Discount to Fair Value</th><th>Expected Catalyst Timeline</th></tr></thead><tbody><tr><td><strong>AMBA</strong></td><td>~$54</td><td>Edge AI Vision SoCs</td><td>80% AI revenue, 370+ production projects, automotive L2+ ramp</td><td>~40-43% below FV</td><td>Q4 2026 – Q1 2027</td></tr><tr><td><strong>CEVA</strong></td><td>~$32</td><td>Edge AI IP Licensing</td><td>NeuPro NPU in billions of devices, royalty model</td><td>Micro-cap, early-stage licensing inflection</td><td>Q1 – Q2 2027</td></tr><tr><td><strong>LSCC</strong></td><td>~$122</td><td>Low-Power FPGAs</td><td>Monopoly in sub-1W AI FPGAs, 68% gross margins</td><td>Inventory normalization tailwind</td><td>Q3 – Q4 2026</td></tr></tbody></table></div>
+<hr class="rule" />
+<p class="paragraph"><em>Disclaimer: This report is for informational and analytical purposes only and does not constitute financial advice. All investments carry risk. Past performance does not guarantee future results. Conduct your own due diligence before making investment decisions.</em></p>
       <div class="feedback-bar">
         <span class="feedback-label">Was this report helpful?</span>
         <button class="feedback-btn" id="btn-up" onclick="vote('up')" title="Thumbs up">&#128077;</button>
@@ -176,7 +274,9 @@
         <span class="feedback-thanks" id="feedback-thanks">Thanks for your feedback!</span>
       </div>
     </article>
-    <footer class="report-meta">Generated as HTML research layout</footer>
+    <footer class="report-meta">
+      <a href="https://github.com/homelessrain/agentic_stock_digest" target="_blank" rel="noopener">View on GitHub: agentic_stock_digest</a>
+    </footer>
     <script>
       function vote(dir) {
         var up = document.getElementById('btn-up');
