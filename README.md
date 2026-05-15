@@ -20,3 +20,9 @@ In each digest email, it will include the following:
 `utils` folder has the necessary util functions including html generation and email sending.
 
 Scheduling is implemented through github actions.
+
+
+## Next Steps
+
+* Allow easy adding more email recipients
+* Establish a feedback mechanism by incoporating the thumbs up/down signals into prompt
