@@ -1,8 +1,8 @@
 name: Digest Trigger
 
 on:
-  schedule:
-    - cron: '0 0 * * 2,4,6'  # 12 AM UTC, every Tuesday, Thursday, and Saturday
+  # schedule:
+  #   - cron: '0 0 * * 2,4,6'  # 12 AM UTC, every Tuesday, Thursday, and Saturday
   workflow_dispatch:      # allow manual trigger from GitHub UI
 
 jobs:
